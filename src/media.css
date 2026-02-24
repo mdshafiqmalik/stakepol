@@ -323,11 +323,11 @@
 @media (max-width : 990px) {
 
     .logo_area a {
+
         display: flex;
         font-size: calc(var(--1)*40);
         line-height: 1.5;
         font-weight: 800;
-
         color: black;
         height: calc(var(--1)*54);
         align-items: center;
@@ -344,8 +344,7 @@
         width: 100%;
         overflow: hidden;
         letter-spacing: 2px;
-        padding-top: 11px;
-        font-family: Devnagri_Semibold;
+        font-family: Devanagri;
         letter-spacing: 2px;
     }
 
