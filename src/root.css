@@ -1,0 +1,117 @@
+@font-face {
+    font-family: "Devanagri";
+    src: url("/fonts/Devanagri/AnekDevanagari-Bold.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Devnagri_Semibold";
+    src: url("/fonts/Devanagri/AnekDevanagari-SemiBold.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+@font-face {
+    font-family: "DM Sans Bold";
+    src: url("/fonts/Sans/DMSans-Bold.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "DM Sans Semi-Bold";
+    src: url("/fonts/Sans/DMSans-SemiBold.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "DM Sans Medium";
+    src: url("/fonts/Sans/DMSans_24pt-Medium.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --1: min(1px, 0.06944vw);
+    --1h: min(1px, 0.06944vh);
+}
+
+body,
+* {
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    text-wrap: pretty;
+    scrollbar-width: none;
+
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.main_container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    background-color: rgb(255, 255, 255);
+    font-family: "DM Sans Medium";
+}
+
+.sidebar_list .sidebar_active {
+    background-color: #018df3;
+}
+
+.wallet_connect_disconnect {
+    border-radius: calc(var(--1)*12);
+    border: .5px solid #00e1ff;
+    padding: calc(var(--1)*5) calc(var(--1)*8);
+    gap: calc(var(--1)*26);
+    font-family: "DM Sans Bold";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(var(--1)*36);
+    position: relative;
+    cursor: pointer;
+    gap: calc(var(--1)*6);
+    background: linear-gradient(319deg, #00e1ff -1.9%, #ffffff 17.34%, #00fffb 87.36%);
+}
+
+.wallet_connect_disconnect .wallet_icon {
+    display: flex;
+    border-radius: 50px;
+    padding: calc(var(--1)*3);
+    background: white;
+}
+
+.wallet_connect_disconnect .wallet_icon svg {
+    fill: #00e1ff;
+    height: 24px;
+    width: 24px;
+
+}
+
+.wallet_connect_disconnect .wallet_address {
+    margin-right: calc(var(--1)*7);
+    font-size: calc(var(--1) * 14);
+}
