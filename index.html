@@ -253,7 +253,7 @@
                 <div id="dashboard" class="dashboard"></div>
                 <script>
                     document.addEventListener("DOMContentLoaded", () => {
-                        fetch("/screens/home.html")
+                        fetch("./screens/home.html")
                             .then(res => res.text())
                             .then(html => {
                                 document.getElementById("dashboard").innerHTML = html;
