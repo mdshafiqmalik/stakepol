@@ -8,7 +8,10 @@
     <link rel="stylesheet" href="src/root.css">
     <link rel="stylesheet" href="src/media.css">
 
+    <script src="src/ethers.js"></script>
     <link rel="stylesheet" href="src/style.css">
+
+
 
     <title>Document</title>
 </head>
@@ -18,19 +21,20 @@
         <div class="container" id="container" data-sidebar="deactive">
             <div class="sidebar" id="sidebar">
                 <div class="logo_area">
-                    <div class="hamburger" id="hamburger"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
+                    <div class="hamburger" id="hamburger">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M3 12H21M3 6H21M9 18H21" stroke="currentColor" stroke-width="3"
                                 stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg></div>
+                        </svg>
+                    </div>
                     <a href="#" class="brandName">
                         <img alt="cube" loading="lazy" width="54" height="54" decoding="async" data-nimg="1"
-                            class="d-md" style="color:transparent" src="/src/bdag.gif">
-                        <span>StakePOL</span>
+                            class="d-md" style="color:transparent" src="src/bdag.gif">
+                        <span>TrustByte</span>
                     </a>
 
-                    <div class="navicon" id="togglebtn"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
+                    <div class="navicon" id="togglebtn">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M15 14.1663L10.8333 9.99967L15 5.83301M9.16667 14.1663L5 9.99967L9.16667 5.83301"
                                 stroke="currentColor" stroke-width="1.66667" stroke-linecap="round"
                                 stroke-linejoin="round">
@@ -39,15 +43,20 @@
                     </div>
                 </div>
 
-                <div class="wallet_connect_disconnect">
+                <div class="wallet_connect_disconnect" id="wallet_place_1" onclick="connectWallet(1)">
                     <div class="wallet_icon">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                             <path
                                 d="M128 96C92.7 96 64 124.7 64 160L64 448C64 483.3 92.7 512 128 512L512 512C547.3 512 576 483.3 576 448L576 256C576 220.7 547.3 192 512 192L136 192C122.7 192 112 181.3 112 168C112 154.7 122.7 144 136 144L520 144C533.3 144 544 133.3 544 120C544 106.7 533.3 96 520 96L128 96zM480 320C497.7 320 512 334.3 512 352C512 369.7 497.7 384 480 384C462.3 384 448 369.7 448 352C448 334.3 462.3 320 480 320z" />
                         </svg>
                     </div>
-                    <!-- <p class="wallet_address">0x77aec.....6e8fe8b</p> -->
-                    <p class="wallet_address">Connect Wallet</p>
+                    <p class="wallet_address" id="walletAddress1">Connect Wallet
+
+                    </p>
+                    <svg class="wallet_arrow" id="wallet_arrow2" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+                    </svg>
                 </div>
 
                 <ul class="sidebar_list sidebar_activated" id="sidebarList">
@@ -118,29 +127,15 @@
                             </svg> <span>Dev Releases</span></a></li>
 
                     <li>
-                        <a class="" href="/transactions"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        <a class="" href="/transactions">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M6 6L8 4M8 4L6 2M8 4H6C3.79086 4 2 5.79086 2 8M18 18L16 20M16 20L18 22M16 20H18C20.2091 20 22 18.2091 22 16M10.189 6.5C10.8551 3.91216 13.2042 2 16 2C19.3137 2 22 4.68629 22 8C22 10.7957 20.0879 13.1449 17.5001 13.811M14 16C14 19.3137 11.3137 22 8 22C4.68629 22 2 19.3137 2 16C2 12.6863 4.68629 10 8 10C11.3137 10 14 12.6863 14 16Z"
                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round"></path>
-                            </svg> <span>Transactions </span><svg class="style_chevron" width="21" height="20"
-                                viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M5.28137 7.5L10.2814 12.5L15.2814 7.5" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round"></path>
-                                <path d="M5.28137 7.5L10.2814 12.5L15.2814 7.5" stroke="currentColor"
-                                    stroke-opacity="0.2" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round"></path>
-                                <path d="M5.28137 7.5L10.2814 12.5L15.2814 7.5" stroke="currentColor"
-                                    stroke-opacity="0.2" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round"></path>
-                                <path d="M5.28137 7.5L10.2814 12.5L15.2814 7.5" stroke="currentColor"
-                                    stroke-opacity="0.2" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round"></path>
-                                <path d="M5.28137 7.5L10.2814 12.5L15.2814 7.5" stroke="currentColor"
-                                    stroke-opacity="0.2" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round"></path>
                             </svg>
+                            <span>Transactions </span>
                         </a>
                     </li>
                     <li>
@@ -177,29 +172,103 @@
                     </div> -->
 
                 </ul>
+
+                <div class="wallet_overlay" id="wallet_overlay_2">
+                    <div class="heading">
+                        <p>Other Wallets</p>
+                    </div>
+                    <div class="hr"></div>
+                    <div class="wallet_list" id="wallet_list_2">
+                    </div>
+
+                    <div class="disconnect_button">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_505_75644)">
+                                <path
+                                    d="M14.9993 6.66667L18.3327 10M18.3327 10L14.9993 13.3333M18.3327 10H7.49935M12.4993 3.50337C11.4371 2.86523 10.2037 2.5 8.88824 2.5C4.89951 2.5 1.66602 5.85786 1.66602 10C1.66602 14.1421 4.89951 17.5 8.88824 17.5C10.2037 17.5 11.4371 17.1348 12.4993 16.4966"
+                                    stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_505_75644">
+                                    <rect width="20" height="20" fill="black" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+
+                        <p onclick="disconnectWallet()">Disconnect</p>
+                    </div>
+
+                </div>
             </div>
             <div class="main_body">
                 <div class="topbar">
-                    <p class="topbar_txt">StakePOL Dashboard</p>
+                    <p class="topbar_txt">TrustByte Dashboard</p>
                     <div class="topbar_right">
-                        <div class="wallet_connect_disconnect">
+                        <div class="wallet_connect_disconnect" id="wallet_place_2" onclick="connectWallet(2)">
                             <div class="wallet_icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                                     <path
                                         d="M128 96C92.7 96 64 124.7 64 160L64 448C64 483.3 92.7 512 128 512L512 512C547.3 512 576 483.3 576 448L576 256C576 220.7 547.3 192 512 192L136 192C122.7 192 112 181.3 112 168C112 154.7 122.7 144 136 144L520 144C533.3 144 544 133.3 544 120C544 106.7 533.3 96 520 96L128 96zM480 320C497.7 320 512 334.3 512 352C512 369.7 497.7 384 480 384C462.3 384 448 369.7 448 352C448 334.3 462.3 320 480 320z" />
                                 </svg>
                             </div>
-                            <p class="wallet_address">0x77aec.....6e8fe8b</p>
-                            <!-- <p class="wallet_address">Connect Wallet</p> -->
+                            <p class="wallet_address" id="walletAddress2">Connect Wallet
+                            </p>
+
+                            <svg class="wallet_arrow" id="wallet_arrow1" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+                            </svg>
                         </div>
+
+                    </div>
+                    <div class="wallet_overlay" id="wallet_overlay_1">
+                        <div class="heading">
+                            <p>Other Wallets</p>
+                        </div>
+                        <div class="hr"></div>
+                        <div class="wallet_list" id="wallet_list_1">
+                        </div>
+
+                        <div class="disconnect_button">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_505_75644)">
+                                    <path
+                                        d="M14.9993 6.66667L18.3327 10M18.3327 10L14.9993 13.3333M18.3327 10H7.49935M12.4993 3.50337C11.4371 2.86523 10.2037 2.5 8.88824 2.5C4.89951 2.5 1.66602 5.85786 1.66602 10C1.66602 14.1421 4.89951 17.5 8.88824 17.5C10.2037 17.5 11.4371 17.1348 12.4993 16.4966"
+                                        stroke="black" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_505_75644">
+                                        <rect width="20" height="20" fill="black" />
+                                    </clipPath>
+                                </defs>
+                            </svg>
+
+                            <p onclick="disconnectWallet()">Disconnect</p>
+                        </div>
+
                     </div>
                 </div>
+                <div id="dashboard" class="dashboard"></div>
+                <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                        fetch("/screens/home.html")
+                            .then(res => res.text())
+                            .then(html => {
+                                document.getElementById("dashboard").innerHTML = html;
+                            })
+                            .catch(err => console.error("Load error:", err));
+                    });
+                </script>
+
             </div>
         </div>
     </div>
-
+    <script src="src/app.js"></script>
     <script src="src/jquery.js"></script>
     <script src="src/style.js"></script>
+
 </body>
 
 </html>

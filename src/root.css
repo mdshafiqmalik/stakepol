@@ -14,11 +14,26 @@
     font-display: swap;
 }
 
+@font-face {
+    font-family: "Devnagri_Exbold";
+    src: url("/fonts/Devanagri/AnekDevanagari_SemiCondensed-ExtraBold.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
 
 @font-face {
     font-family: "DM Sans Bold";
     src: url("/fonts/Sans/DMSans-Bold.ttf") format("truetype");
-    font-weight: 400;
+    font-weight: 1000;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "DM Sans ExBold";
+    src: url("/fonts/Sans/DMSans-ExtraBold.ttf") format("truetype");
+    font-weight: 1000;
     font-style: normal;
     font-display: swap;
 }
@@ -78,7 +93,7 @@ a {
 }
 
 .sidebar_list .sidebar_active {
-    background-color: #018df3;
+    background-color: #00d0ff;
 }
 
 .wallet_connect_disconnect {
@@ -94,7 +109,7 @@ a {
     position: relative;
     cursor: pointer;
     gap: calc(var(--1)*6);
-    background: linear-gradient(319deg, #00e1ff -1.9%, #ffffff 17.34%, #00fffb 87.36%);
+    background: linear-gradient(319deg, #00d0ff -1.9%, #b0fff6 17.34%, #00d0ff 87.36%);
 }
 
 .wallet_connect_disconnect .wallet_icon {
@@ -105,7 +120,7 @@ a {
 }
 
 .wallet_connect_disconnect .wallet_icon svg {
-    fill: #00e1ff;
+    fill: #00d0ff;
     height: 24px;
     width: 24px;
 
@@ -114,4 +129,25 @@ a {
 .wallet_connect_disconnect .wallet_address {
     margin-right: calc(var(--1)*7);
     font-size: calc(var(--1) * 14);
+}
+
+.dashboard {
+    gap: calc(var(--1)*24);
+}
+
+.wallet_overlay {
+    overflow-y: auto;
+    height: auto;
+    z-index: 9999;
+    position: absolute;
+    max-height: 80vh;
+    border: .1px solid #00d0ff;
+    min-width: 150px;
+    top: calc(var(--1) * 85);
+    right: 5px;
+    border-radius: calc(var(--1) * 15);
+    background: #b7f7ff;
+    display: none;
+    flex-direction: column;
+    padding: 5px;
 }
