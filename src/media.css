@@ -463,6 +463,10 @@
 
 /* Mobile */
 @media (max-width : 990px) {
+    .dashboard {
+        padding: calc(var(--1)*10);
+    }
+
     .logo_area {
         display: flex;
         align-items: center;
@@ -684,8 +688,9 @@
     }
 
     .balance_section {
-        width: 100vw;
+        width: 98vw;
         padding: 20px;
+        margin: calc(var(--1)* 10);
         margin-top: calc(var(--1) * 90);
         order: 1;
         display: flex;
