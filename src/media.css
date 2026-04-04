@@ -328,13 +328,13 @@
         background-color: #051053;
     }
 
-    .wallet_overlay .wallet_list {
+    .wallet_overlay .account_list {
         display: flex;
         flex-direction: column;
         padding: 5px 5px 2px 5px;
     }
 
-    .wallet_overlay .wallet_list div {
+    .wallet_overlay .account_list div {
         width: 100%;
         padding: 7px 10px;
         min-width: 190px;
@@ -652,19 +652,62 @@
         background-color: #051053;
     }
 
-    .wallet_overlay .wallet_list {
+    .wallet_overlay .account_list {
         display: flex;
         flex-direction: column;
         padding: 15px 5px 5px 5px;
     }
 
-    .wallet_overlay .wallet_list div {
+    .wallet_overlay .account_list div {
         width: 100%;
         padding: 10px;
         min-width: 190px;
         background-color: #67fbef;
         margin-top: 3px;
         border-radius: calc(var(--1) * 8);
+    }
+
+    .wallet_overlay .account_list div {
+        width: 100%;
+        padding: 7px 10px;
+        min-width: 190px;
+        background-color: #67fbef;
+        margin-top: 3px;
+        border-radius: calc(var(--1) * 8);
+    }
+
+    .wallet_list {
+        padding: calc(var(--1)*1.5);
+    }
+
+    .wallet_list .wallet_div {
+        display: flex;
+        padding: 10px 15px;
+        background-color: #67fbef;
+        margin-top: 3px;
+        border-radius: calc(var(--1) * 8);
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .wallet_list .wallet_div:hover {
+        background-color: #ffffff;
+    }
+
+    .wallet_list .wallet_div .wallet_pic {
+        width: 28px;
+        height: 28px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 10px;
+        border-radius: 50px;
+        border: .5px solid #051053;
+    }
+
+    .wallet_list .wallet_div img {
+        width: 18px;
+        height: 18px;
     }
 
     .wallet_overlay .disconnect_button {

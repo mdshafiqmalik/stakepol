@@ -104,8 +104,8 @@ async function handleAccountsChanged(accounts) {
         wallets += `<div>${medAddress(accounts[i])}</div>`;
     }
 
-    document.getElementById("wallet_list_1").innerHTML = wallets;
-    document.getElementById("wallet_list_2").innerHTML = wallets;
+    document.getElementById("account_list_1").innerHTML = wallets;
+    document.getElementById("account_list_2").innerHTML = wallets;
 
     signer = await provider.getSigner();
     const address = accounts[0];
@@ -124,15 +124,49 @@ async function handleAccountsChanged(accounts) {
     onWalletConnected(accounts, 0);
 }
 
-async function connectWallet(place) {
-    if (window.ethereum) {
-        provider = new ethers.BrowserProvider(window.ethereum);
-        const accounts = await provider.send("eth_requestAccounts", []);
-        await handleAccountsChanged(accounts);
+async function connectClicked(showConnect) {
+    let wo1 = document.getElementById("wallet_place_1")
+    let wo2 = document.getElementById("wallet_place_2")
+    if (showConnect) {
+        wo1.setAttribute("onclick", "connectClicked(false)")
+        wo2.setAttribute("onclick", "connectClicked(false)")
+        document.getElementById("disconnect_button_1").style.display = "none"
+        document.getElementById("disconnect_button_2").style.display = "none"
+        document.getElementById("wallet_overlay_2").style.display = "flex";
+        document.getElementById("overlay-title-2").innerText = "Select Wallet";
+
+        document.getElementById("wallet_arrow1").style.transform = "rotate(90deg)";
+        document.getElementById("wallet_arrow2").style.transform = "rotate(90deg)";
     } else {
-        const url = window.location.href;
-        const metamaskUrl = "https://metamask.app.link/dapp/" + url.replace(/^https?:\/\//, '');
-        window.location.href = metamaskUrl;
+        wo1.setAttribute("onclick", "connectClicked(true)")
+        document.getElementById("wallet_overlay_2").style.display = "none";
+        document.getElementById("wallet_overlay_1").style.display = "none";
+
+        document.getElementById("wallet_arrow1").style.transform = "rotate(0deg)";
+        document.getElementById("wallet_arrow2").style.transform = "rotate(0deg)";
+    }
+
+}
+
+
+
+async function connectWallet(walletName) {
+    if (walletName == "metamask") {
+        if (window.ethereum) {
+            provider = new ethers.BrowserProvider(window.ethereum);
+            const accounts = await provider.send("eth_requestAccounts", []);
+            await handleAccountsChanged(accounts);
+        } else {
+            alert("Install Metamask Extension")
+        }
+    } else if (walletName == "coinbase") {
+        if (window.ethereum && window.ethereum.isCoinbaseWallet) {
+            accounts = await window.ethereum.request({
+                method: 'eth_requestAccounts'
+            });
+        } else {
+            alert("Coinbase Wallet not installed");
+        }
     }
 }
 
@@ -166,7 +200,7 @@ async function onWalletConnected(account, index) {
 }
 
 function showConnectButton() {
-    document.getElementById("walletAddress1").innerText = "Connect Wallet";
+    document.getElementById("walletAddress1").innerText = "Connect";
     document.getElementById("walletAddress2").innerText = "Connect Wallet";
 }
 

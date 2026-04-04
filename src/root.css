@@ -145,7 +145,7 @@ a {
     min-width: 150px;
     top: calc(var(--1) * 85);
     right: 5px;
-    border-radius: calc(var(--1) * 15);
+    border-radius: calc(var(--1) * 12);
     background: #b7f7ff;
     display: none;
     flex-direction: column;
