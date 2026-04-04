@@ -684,11 +684,11 @@
     }
 
     .balance_section {
+        width: 100vw;
         padding: 20px;
         margin-top: calc(var(--1) * 90);
         order: 1;
         display: flex;
-        width: max-content;
         flex-direction: column;
         isolation: isolate;
         position: relative;
@@ -752,7 +752,6 @@
 
     .bal .balances .qty {
         align-self: flex-end;
-        margin-left: 150px;
     }
 
 }
