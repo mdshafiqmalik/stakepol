@@ -642,7 +642,6 @@
     }
 
     #wallet_arrow2 {
-        display: none;
         rotate: calc(90deg);
         transition: transform .5s ease-in-out;
     }

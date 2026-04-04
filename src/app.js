@@ -162,7 +162,6 @@ async function onWalletConnected(account, index) {
         document.getElementById("wallet_arrow2").style.display = "flex";
     } else {
         document.getElementById("wallet_arrow1").style.display = "none";
-        document.getElementById("wallet_arrow2").style.display = "none";
     }
 }
 
