@@ -20,6 +20,7 @@ if (window.ethereum) {
     window.ethereum.on('chainChanged', () => location.reload());
 }
 
+let isMobile = window.innerWidth < 900;
 async function loadABI() {
     const response = await fetch("./src/abi.json");   // your ABI file
     const json = await response.json();
@@ -34,8 +35,12 @@ async function loadERCABI() {
 
 window.onload = async function () {
     if (!window.ethereum) {
-        alert("Install MetaMask");
-        return;
+        if (isMobile) {
+            walletConnection = false;
+        } else {
+            alert("Install MetaMask");
+            return;
+        }
     }
 
     provider = new ethers.BrowserProvider(window.ethereum);
@@ -120,11 +125,15 @@ async function handleAccountsChanged(accounts) {
 }
 
 async function connectWallet(place) {
-    const accounts = await provider.send("eth_requestAccounts", []);
-
-    localStorage.setItem("walletConnected", "true");
-
-    await handleAccountsChanged(accounts, place);
+    if (window.ethereum) {
+        provider = new ethers.BrowserProvider(window.ethereum);
+        const accounts = await provider.send("eth_requestAccounts", []);
+        await handleAccountsChanged(accounts);
+    } else {
+        const url = window.location.href;
+        const metamaskUrl = "https://metamask.app.link/dapp/" + url.replace(/^https?:\/\//, '');
+        window.location.href = metamaskUrl;
+    }
 }
 
 function shortAddress(address) {
