@@ -136,16 +136,21 @@ async function connectWallet(place) {
     }
 }
 
-function shortAddress(address) {
-    return address.slice(0, 6) + "....." + address.slice(-4);
+function shortAddress(address, isMobile) {
+    if (isMobile) {
+        return address.slice(0, 4) + "..." + address.slice(-4);
+    } else {
+        return address.slice(0, 6) + "....." + address.slice(-4);
+    }
+
 }
 
 function medAddress(address) {
     return address.slice(0, 8) + "....." + address.slice(-8);
 }
 async function onWalletConnected(account, index) {
-    document.getElementById("walletAddress1").innerText = shortAddress(account[index]);
-    document.getElementById("walletAddress2").innerText = shortAddress(account[index]);
+    document.getElementById("walletAddress1").innerText = shortAddress(account[index], isMobile);
+    document.getElementById("walletAddress2").innerText = shortAddress(account[index], isMobile);
 
     document.getElementById("tbyt_balance").innerText = tbyt + " TBYT";
     document.getElementById("pol_balance").innerText = pol + " POL";

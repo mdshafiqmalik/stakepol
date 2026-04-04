@@ -709,7 +709,8 @@
     }
 
     .balance_section .bal_heading span {
-        font-size: calc(var(--1) * 15);
+        font-size: calc(var(--1) * 17);
+        font-weight: bolder;
     }
 
     .balance_section .bal {
