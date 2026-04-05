@@ -9,7 +9,8 @@ let tbyt;
 let usdt;
 let pol;
 function isMobile() {
-    return /Android|iPhone/i.test(navigator.userAgent);
+    // return /Android|iPhone/i.test(navigator.userAgent);
+    return false
 }
 const contractAddress = "0x1dA548b17Fdd43384f2Abe0932d6365cb4bABAaa";
 const usdtAddress = "0xbb681A3429e3db53DD51824aaCe4F5bB85B0c54d"
@@ -70,6 +71,8 @@ async function handleAccountsChanged(accounts) {
         document.getElementById("wallet_arrow_m").style.display = "flex"
         document.getElementById("wallet_list_m").style.display = "none";
     } else {
+        document.getElementById("wallet_place_d").setAttribute("onclick", "showWallets()")
+        document.getElementById("account_list_d").innerHTML = wallet;
         document.getElementById("disconnect_button_d").style.display = "flex"
         document.getElementById("account_list_d").innerHTML = wallet;
         document.getElementById("wallet_arrow_d").style.display = "flex"
@@ -182,16 +185,20 @@ async function connectWallet(walletName) {
 }
 
 async function onWalletConnected(account, index) {
-    document.getElementById("walletAddress_d").innerText = shortAddress(account[index], isMobile);
-    document.getElementById("walletAddress_m").innerText = shortAddress(account[index], isMobile);
-
     document.getElementById("tbyt_balance").innerText = tbyt + " TBYT";
     document.getElementById("pol_balance").innerText = pol + " POL";
     document.getElementById("usdt_balance").innerText = usdt + " USDT";
-    document.getElementById("wallet_place_d").setAttribute("onclick", "showWallets()");
-    document.getElementById("wallet_place_m").setAttribute("onclick", "showWallets()");
-    document.getElementById("wallet_arrow_d").style.display = "flex";
-    document.getElementById("wallet_arrow_m").style.display = "flex";
+    if (isMobile) {
+        document.getElementById("wallet_place_m").setAttribute("onclick", "showWallets()");
+        document.getElementById("wallet_arrow_m").style.display = "flex";
+        document.getElementById("walletAddress_m").innerText = shortAddress(account[index], isMobile);
+    } else {
+        console.log("j");
+
+        document.getElementById("wallet_place_d").setAttribute("onclick", "showWallets()");
+        document.getElementById("wallet_arrow_d").style.display = "flex";
+        document.getElementById("walletAddress_d").innerText = medAddress(account[index]);
+    }
 }
 
 function showConnectButton() {
