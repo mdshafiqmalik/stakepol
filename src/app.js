@@ -10,7 +10,8 @@ let usdt;
 let pol;
 function isMobile() {
     // return /Android|iPhone/i.test(navigator.userAgent);
-    return false
+    return window.innerWidth < 900;
+    // return false
 }
 const contractAddress = "0x1dA548b17Fdd43384f2Abe0932d6365cb4bABAaa";
 const usdtAddress = "0xbb681A3429e3db53DD51824aaCe4F5bB85B0c54d"
@@ -35,7 +36,7 @@ async function connectClicked(showConnect) {
     let wam = document.getElementById("wallet_arrow_m")
 
     if (showConnect) {
-        if (isMobile) {
+        if (isMobile()) {
             wpm.setAttribute("onclick", "connectClicked(false)")
             document.getElementById("disconnect_button_m").style.display = "none"
             document.getElementById("wallet_overlay_m").style.display = "flex";
@@ -65,7 +66,7 @@ async function handleAccountsChanged(accounts) {
     const address = accounts[0];
     let wallet = `<div>${medAddress(address)}</div>`;
 
-    if (isMobile) {
+    if (isMobile()) {
         document.getElementById("wallet_place_m").setAttribute("onclick", "showWallets()")
         document.getElementById("account_list_m").innerHTML = wallet;
         document.getElementById("wallet_arrow_m").style.display = "flex"
@@ -188,7 +189,7 @@ async function onWalletConnected(account, index) {
     document.getElementById("tbyt_balance").innerText = tbyt + " TBYT";
     document.getElementById("pol_balance").innerText = pol + " POL";
     document.getElementById("usdt_balance").innerText = usdt + " USDT";
-    if (isMobile) {
+    if (isMobile()) {
         document.getElementById("wallet_place_m").setAttribute("onclick", "showWallets()");
         document.getElementById("wallet_arrow_m").style.display = "flex";
         document.getElementById("walletAddress_m").innerText = shortAddress(account[index], isMobile);
@@ -208,20 +209,20 @@ function showConnectButton() {
 
 let showWallet = false;
 async function showWallets() {
+    document.getElementById("wallet_list_m").style.display = "none"
     if (!showWallet) {
-        if (isMobile) {
-
-            document.getElementById("wallet_overlay_d").style.display = "none";
+        if (isMobile()) {
             document.getElementById("wallet_overlay_m").style.display = "flex";
+            document.getElementById("wallet_overlay_d").style.display = "none";
         } else {
-            document.getElementById("disconnect_button_d").style.display = "flex"
             document.getElementById("wallet_overlay_d").style.display = "flex";
             document.getElementById("wallet_overlay_m").style.display = "none";
+            document.getElementById("disconnect_button_d").style.display = "flex"
+
         }
 
         document.getElementById("wallet_arrow_d").style.transform = "rotate(90deg)";
         document.getElementById("wallet_arrow_m").style.transform = "rotate(90deg)";
-
         showWallet = true;
     } else {
         document.getElementById("wallet_overlay_d").style.display = "none";
