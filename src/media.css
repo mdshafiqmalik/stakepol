@@ -497,7 +497,6 @@
         overflow: hidden;
         letter-spacing: 2px;
         font-family: "Devnagri_Exbold";
-        padding-top: calc(var(--1)*3);
     }
 
     .logo_area a img {
@@ -506,8 +505,8 @@
     }
 
     .hamburger svg {
-        width: calc(var(--1)*24);
-        height: calc(var(--1)*24);
+        width: 25px;
+        height: 25px;
         color: black;
     }
 
