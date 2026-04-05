@@ -8,7 +8,9 @@ let walletConnection = false;
 let tbyt;
 let usdt;
 let pol;
-
+function isMobile() {
+    return /Android|iPhone/i.test(navigator.userAgent);
+}
 const contractAddress = "0x1dA548b17Fdd43384f2Abe0932d6365cb4bABAaa";
 const usdtAddress = "0xbb681A3429e3db53DD51824aaCe4F5bB85B0c54d"
 const usdtAbi = [
@@ -19,8 +21,6 @@ if (window.ethereum) {
     window.ethereum.on('accountsChanged', handleAccountsChanged);
     window.ethereum.on('chainChanged', () => location.reload());
 }
-
-let isMobile = window.innerWidth < 900;
 async function loadABI() {
     const response = await fetch("./src/abi.json");   // your ABI file
     const json = await response.json();
@@ -33,34 +33,7 @@ async function loadERCABI() {
     usdtabi = json.abi;              // must be JSON array
 }
 
-window.onload = async function () {
-    if (!window.ethereum) {
-        if (isMobile) {
-            walletConnection = false;
-        } else {
-            alert("Install MetaMask");
-            return;
-        }
-    }
 
-    provider = new ethers.BrowserProvider(window.ethereum);
-    await loadABI();
-
-    const wasConnected = localStorage.getItem("walletConnected");
-    walletConnection = wasConnected;
-    if (!wasConnected) {
-        showConnectButton();
-        return;
-    }
-
-    const accounts = await provider.send("eth_accounts", []);
-
-    if (accounts.length > 0) {
-        await handleAccountsChanged(accounts);
-    } else {
-        showConnectButton();
-    }
-};
 function formatNumberShort(num) {
     num = parseFloat(num);
 
@@ -127,6 +100,7 @@ async function handleAccountsChanged(accounts) {
 async function connectClicked(showConnect) {
     let wo1 = document.getElementById("wallet_place_1")
     let wo2 = document.getElementById("wallet_place_2")
+    document.getElementById("account_list_2").style.display = "none"
     if (showConnect) {
         wo1.setAttribute("onclick", "connectClicked(false)")
         wo2.setAttribute("onclick", "connectClicked(false)")
@@ -147,26 +121,95 @@ async function connectClicked(showConnect) {
     }
 
 }
+async function waitForEthereum() {
+    return new Promise((resolve) => {
+        if (window.ethereum) return resolve(window.ethereum);
+
+        const checkInterval = setInterval(() => {
+            if (window.ethereum) {
+                clearInterval(checkInterval);
+                resolve(window.ethereum);
+            }
+        }, 300);
+    });
+}
 
 
 
+window.onload = async function () {
+
+    const eth = await waitForEthereum();
+    provider = new ethers.BrowserProvider(eth);
+
+    await loadABI();
+
+    const accounts = await provider.send("eth_accounts", []);
+
+    if (accounts.length > 0) {
+        await handleAccountsChanged(accounts);
+    } else {
+        showConnectButton();
+    }
+};
 async function connectWallet(walletName) {
-    if (walletName == "metamask") {
-        if (window.ethereum) {
-            provider = new ethers.BrowserProvider(window.ethereum);
-            const accounts = await provider.send("eth_requestAccounts", []);
-            await handleAccountsChanged(accounts);
-        } else {
-            alert("Install Metamask Extension")
+    const dappUrl = window.location.href;
+    const encodedUrl = encodeURIComponent(dappUrl);
+
+    // If already inside wallet browser → connect
+    if (window.ethereum) {
+        await provider.send("eth_requestAccounts", []);
+        signer = await provider.getSigner();
+        return;
+    }
+
+    // Mobile deep links
+    if (isMobile()) {
+        if (walletName == "metamask") {
+            window.location.href =
+                "https://metamask.app.link/dapp/" + dappUrl.replace("https://", "");
+            if (window.ethereum) {
+                await provider.send("eth_requestAccounts", []);
+                signer = await provider.getSigner();
+
+                localStorage.setItem("walletConnected", "true"); // ADD THIS
+                return;
+            }
         }
-    } else if (walletName == "coinbase") {
-        if (window.ethereum && window.ethereum.isCoinbaseWallet) {
-            accounts = await window.ethereum.request({
-                method: 'eth_requestAccounts'
-            });
-        } else {
-            alert("Coinbase Wallet not installed");
+        else if (walletName == "coinbase") {
+            window.location.href =
+                "https://go.cb-w.com/dapp?cb_url=" + encodedUrl;
+
+            if (window.ethereum) {
+                await provider.send("eth_requestAccounts", []);
+                signer = await provider.getSigner();
+
+                localStorage.setItem("walletConnected", "true"); // ADD THIS
+                return;
+            }
         }
+        else if (walletName == "trustwallet") {
+            window.location.href =
+                "https://link.trustwallet.com/open_url?coin_id=60&url=" + encodedUrl;
+            if (window.ethereum) {
+                await provider.send("eth_requestAccounts", []);
+                signer = await provider.getSigner();
+
+                localStorage.setItem("walletConnected", "true"); // ADD THIS
+                return;
+            }
+        }
+        return;
+    }
+
+    // Desktop
+    if (window.ethereum) {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        const signer = await provider.getSigner();
+        const address = await signer.getAddress();
+        console.log("Connected:", address);
+    } else {
+        alert("Install MetaMask, TrustWallet or Coinbase Wallet Extension");
     }
 }
 

@@ -150,4 +150,5 @@ a {
     display: none;
     flex-direction: column;
     padding: 5px;
+    transition: transform .5s ease-in-out;
 }
