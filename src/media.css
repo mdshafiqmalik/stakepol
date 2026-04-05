@@ -340,6 +340,7 @@
         background-color: #67fbef;
         margin-top: 3px;
         border-radius: calc(var(--1) * 8);
+        cursor: copy;
     }
 
     .wallet_overlay .disconnect_button {
@@ -664,6 +665,7 @@
         background-color: #67fbef;
         margin-top: 8px;
         border-radius: calc(var(--1) * 8);
+        cursor: copy;
     }
 
 
