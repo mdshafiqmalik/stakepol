@@ -56,7 +56,14 @@ async function connectClicked(showConnect) {
     }
 }
 
-
+async function copyAddress(text) {
+    try {
+        await navigator.clipboard.writeText(text);
+        alert("Address Copied: " + text);
+    } catch (err) {
+        console.error("Copy failed", err);
+    }
+}
 async function handleAccountsChanged(accounts) {
     if (accounts.length === 0) {
         signer = null;
@@ -64,7 +71,7 @@ async function handleAccountsChanged(accounts) {
         return;
     }
     const address = accounts[0];
-    let wallet = `<div>${medAddress(address)}</div>`;
+    let wallet = `<div onclick="copyAddress('${address}')">${medAddress(address)}</div>`;
 
     if (isMobile()) {
         document.getElementById("wallet_place_m").setAttribute("onclick", "showWallets()")
