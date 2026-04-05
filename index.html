@@ -181,7 +181,7 @@
                     <div class="account_list" id="account_list_2">
                     </div>
 
-                    <div class="wallet_list">
+                    <div class="wallet_list" id="wallet_list">
                         <div class="wallet_div" onclick="connectWallet('trustwallet')">
                             <div class="wallet_pic">
                                 <img src="./src/trustwallet.svg" alt="">
@@ -189,13 +189,13 @@
                             <span>Trust Wallet</span>
                         </div>
 
-                        <div class="wallet_div" onclick="connectWallet('metamask')">
+                        <div class="wallet_div" onclick='connectWallet("metamask")'>
                             <div class="wallet_pic">
                                 <img src="./src/metamask.svg" alt="">
                             </div>
                             <span>Metamask Wallet</span>
                         </div>
-                        <div class="wallet_div" onclick="connectWallet('coinbase')">
+                        <div class="wallet_div" onclick='connectWallet("coinbase")'>
                             <div class="wallet_pic">
                                 <img src="./src/coinbase.svg" alt="">
                             </div>
@@ -227,7 +227,7 @@
                 <div class="topbar">
                     <p class="topbar_txt">TrustByte Dashboard</p>
                     <div class="topbar_right">
-                        <div class="wallet_connect_disconnect" id="wallet_place_2" onclick="connectWallet('any')">
+                        <div class="wallet_connect_disconnect" id="wallet_place_2" onclick='connectWallet("any")'>
                             <div class="wallet_icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                                     <path

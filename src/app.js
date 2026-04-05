@@ -72,11 +72,8 @@ async function handleAccountsChanged(accounts) {
         return;
     }
 
-    let wallets = ``;
-    for (let i = 1; i < accounts.length; i++) {
-        wallets += `<div>${medAddress(accounts[i])}</div>`;
-    }
-
+    let wallet = `<div>${medAddress(accounts[0])}</div>`;
+    document.getElementById("wallet_list").style.display = "none";
     document.getElementById("account_list_1").innerHTML = wallets;
     document.getElementById("account_list_2").innerHTML = wallets;
 
@@ -137,17 +134,22 @@ async function waitForEthereum() {
 
 
 window.onload = async function () {
-
     const eth = await waitForEthereum();
     provider = new ethers.BrowserProvider(eth);
 
     await loadABI();
 
-    const accounts = await provider.send("eth_accounts", []);
+    try {
+        // Only check connection, DO NOT request
+        const accounts = await provider.send("eth_accounts", []);
 
-    if (accounts.length > 0) {
-        await handleAccountsChanged(accounts);
-    } else {
+        if (accounts.length > 0) {
+            localStorage.setItem("walletConnected", "true");
+            await handleAccountsChanged(accounts);
+        } else {
+            showConnectButton();
+        }
+    } catch (e) {
         showConnectButton();
     }
 };
@@ -155,12 +157,6 @@ async function connectWallet(walletName) {
     const dappUrl = window.location.href;
     const encodedUrl = encodeURIComponent(dappUrl);
 
-    // If already inside wallet browser → connect
-    if (window.ethereum) {
-        await provider.send("eth_requestAccounts", []);
-        signer = await provider.getSigner();
-        return;
-    }
 
     // Mobile deep links
     if (isMobile()) {
@@ -174,6 +170,21 @@ async function connectWallet(walletName) {
                 localStorage.setItem("walletConnected", "true"); // ADD THIS
                 return;
             }
+        }
+        else if (walletName == "any") {
+            console.log("any");
+            window.location.href =
+                "https://go.cb-w.com/dapp?cb_url=" + encodedUrl;
+
+            if (window.ethereum) {
+                await provider.send("eth_requestAccounts", []);
+                signer = await provider.getSigner();
+
+                localStorage.setItem("walletConnected", "true"); // ADD THIS
+                return;
+            }
+
+
         }
         else if (walletName == "coinbase") {
             window.location.href =
@@ -203,11 +214,14 @@ async function connectWallet(walletName) {
 
     // Desktop
     if (window.ethereum) {
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        await provider.send("eth_requestAccounts", []);
+        provider = new ethers.BrowserProvider(window.ethereum);
+        const accounts = await provider.send("eth_requestAccounts", []);
+        localStorage.setItem("walletConnected", "true");
+
+        await handleAccountsChanged(accounts)
         const signer = await provider.getSigner();
         const address = await signer.getAddress();
-        console.log("Connected:", address);
+        handleAccountsChanged(accounts)
     } else {
         alert("Install MetaMask, TrustWallet or Coinbase Wallet Extension");
     }
@@ -226,6 +240,8 @@ function medAddress(address) {
     return address.slice(0, 8) + "....." + address.slice(-8);
 }
 async function onWalletConnected(account, index) {
+    console.log(account);
+
     document.getElementById("walletAddress1").innerText = shortAddress(account[index], isMobile);
     document.getElementById("walletAddress2").innerText = shortAddress(account[index], isMobile);
 
@@ -249,7 +265,6 @@ function showConnectButton() {
 
 let showWallet = false;
 async function showWallets() {
-    const isMobile = window.innerWidth < 990;
     if (!showWallet) {
         if (isMobile) {
             document.getElementById("wallet_overlay_1").style.display = "none";
