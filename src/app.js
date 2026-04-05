@@ -74,8 +74,8 @@ async function handleAccountsChanged(accounts) {
 
     let wallet = `<div>${medAddress(accounts[0])}</div>`;
     document.getElementById("wallet_list").style.display = "none";
-    document.getElementById("account_list_1").innerHTML = wallets;
-    document.getElementById("account_list_2").innerHTML = wallets;
+    document.getElementById("account_list_1").innerHTML = wallet;
+    document.getElementById("account_list_2").innerHTML = wallet;
 
     signer = await provider.getSigner();
     const address = accounts[0];
