@@ -27,43 +27,33 @@ async function loadABI() {
     abi = json.abi;              // must be JSON array
 }
 
-async function loadERCABI() {
-    const response = await fetch("./src/erc.json");   // your ABI file
-    const json = await response.json();
-    usdtabi = json.abi;              // must be JSON array
+async function connectClicked(showConnect) {
+    let wpd = document.getElementById("wallet_place_d")
+    let wpm = document.getElementById("wallet_place_m")
+    let wad = document.getElementById("wallet_arrow_d")
+    let wam = document.getElementById("wallet_arrow_m")
+
+    if (showConnect) {
+        if (isMobile) {
+            wpm.setAttribute("onclick", "connectClicked(false)")
+            document.getElementById("disconnect_button_m").style.display = "none"
+            document.getElementById("wallet_overlay_m").style.display = "flex";
+            wam.style.transform = "rotate(90deg)";
+            document.getElementById("overlay-title-m").innerText = "Select Wallet";
+        } else {
+            wpd.setAttribute("onclick", "connectClicked(false)")
+            // document.getElementById("wallet_overlay_d").style.display = "flex";
+        }
+
+    } else {
+        wpd.setAttribute("onclick", "connectClicked(true)")
+        wpm.setAttribute("onclick", "connectClicked(true)")
+        document.getElementById("wallet_overlay_m").style.display = "none";
+        document.getElementById("wallet_overlay_d").style.display = "none";
+        wam.style.transform = "rotate(0deg)";
+    }
 }
 
-
-function formatNumberShort(num) {
-    num = parseFloat(num);
-
-    if (num >= 1e9) {
-        return (num / 1e9).toFixed(2).replace(/\.00$/, '') + "B";
-    }
-    if (num >= 1e6) {
-        return (num / 1e6).toFixed(2).replace(/\.00$/, '') + "M";
-    }
-    if (num >= 1e3) {
-        return (num / 1e3).toFixed(2).replace(/\.00$/, '') + "K";
-    }
-    return num.toString();
-}
-function formatUnits(value, decimals = 18, maxDecimals = 4) {
-    value = value.toString();
-
-    if (value.length <= decimals) {
-        value = value.padStart(decimals + 1, '0');
-    }
-
-    let integerPart = value.slice(0, value.length - decimals);
-    let decimalPart = value.slice(value.length - decimals);
-
-    decimalPart = decimalPart.replace(/0+$/, '');
-    decimalPart = decimalPart.slice(0, maxDecimals);
-
-    let longer = decimalPart ? integerPart + "." + decimalPart : integerPart;
-    return formatNumberShort(longer);
-}
 
 async function handleAccountsChanged(accounts) {
     if (accounts.length === 0) {
@@ -71,15 +61,21 @@ async function handleAccountsChanged(accounts) {
         contract = null;
         return;
     }
-
-    let wallet = `<div>${medAddress(accounts[0])}</div>`;
-    document.getElementById("wallet_list").style.display = "none";
-    document.getElementById("account_list_1").innerHTML = wallet;
-    document.getElementById("account_list_2").innerHTML = wallet;
-
-    signer = await provider.getSigner();
     const address = accounts[0];
+    let wallet = `<div>${medAddress(address)}</div>`;
 
+    if (isMobile) {
+        document.getElementById("wallet_place_m").setAttribute("onclick", "showWallets()")
+        document.getElementById("account_list_m").innerHTML = wallet;
+        document.getElementById("wallet_arrow_m").style.display = "flex"
+        document.getElementById("wallet_list_m").style.display = "none";
+    } else {
+        document.getElementById("disconnect_button_d").style.display = "flex"
+        document.getElementById("account_list_d").innerHTML = wallet;
+        document.getElementById("wallet_arrow_d").style.display = "flex"
+        document.getElementById("wallet_list_d").style.display = "none";
+    }
+    signer = await provider.getSigner();
     contract = new ethers.Contract(contractAddress, abi, signer);
     contractUSDT = new ethers.Contract(usdtAddress, usdtAbi, signer);
 
@@ -94,30 +90,7 @@ async function handleAccountsChanged(accounts) {
     onWalletConnected(accounts, 0);
 }
 
-async function connectClicked(showConnect) {
-    let wo1 = document.getElementById("wallet_place_1")
-    let wo2 = document.getElementById("wallet_place_2")
-    document.getElementById("account_list_2").style.display = "none"
-    if (showConnect) {
-        wo1.setAttribute("onclick", "connectClicked(false)")
-        wo2.setAttribute("onclick", "connectClicked(false)")
-        document.getElementById("disconnect_button_1").style.display = "none"
-        document.getElementById("disconnect_button_2").style.display = "none"
-        document.getElementById("wallet_overlay_2").style.display = "flex";
-        document.getElementById("overlay-title-2").innerText = "Select Wallet";
 
-        document.getElementById("wallet_arrow1").style.transform = "rotate(90deg)";
-        document.getElementById("wallet_arrow2").style.transform = "rotate(90deg)";
-    } else {
-        wo1.setAttribute("onclick", "connectClicked(true)")
-        document.getElementById("wallet_overlay_2").style.display = "none";
-        document.getElementById("wallet_overlay_1").style.display = "none";
-
-        document.getElementById("wallet_arrow1").style.transform = "rotate(0deg)";
-        document.getElementById("wallet_arrow2").style.transform = "rotate(0deg)";
-    }
-
-}
 async function waitForEthereum() {
     return new Promise((resolve) => {
         if (window.ethereum) return resolve(window.ethereum);
@@ -136,7 +109,6 @@ async function waitForEthereum() {
 window.onload = async function () {
     const eth = await waitForEthereum();
     provider = new ethers.BrowserProvider(eth);
-
     await loadABI();
 
     try {
@@ -153,11 +125,11 @@ window.onload = async function () {
         showConnectButton();
     }
 };
+
+
 async function connectWallet(walletName) {
     const dappUrl = window.location.href;
     const encodedUrl = encodeURIComponent(dappUrl);
-
-
     // Mobile deep links
     if (isMobile()) {
         if (walletName == "metamask") {
@@ -170,21 +142,6 @@ async function connectWallet(walletName) {
                 localStorage.setItem("walletConnected", "true"); // ADD THIS
                 return;
             }
-        }
-        else if (walletName == "any") {
-            console.log("any");
-            window.location.href =
-                "https://go.cb-w.com/dapp?cb_url=" + encodedUrl;
-
-            if (window.ethereum) {
-                await provider.send("eth_requestAccounts", []);
-                signer = await provider.getSigner();
-
-                localStorage.setItem("walletConnected", "true"); // ADD THIS
-                return;
-            }
-
-
         }
         else if (walletName == "coinbase") {
             window.location.href =
@@ -210,80 +167,61 @@ async function connectWallet(walletName) {
             }
         }
         return;
-    }
-
-    // Desktop
-    if (window.ethereum) {
+    } else if (window.ethereum) {
         provider = new ethers.BrowserProvider(window.ethereum);
         const accounts = await provider.send("eth_requestAccounts", []);
         localStorage.setItem("walletConnected", "true");
 
-        await handleAccountsChanged(accounts)
+
         const signer = await provider.getSigner();
-        const address = await signer.getAddress();
-        handleAccountsChanged(accounts)
+        address = await signer.getAddress();
+        await handleAccountsChanged(accounts)
     } else {
         alert("Install MetaMask, TrustWallet or Coinbase Wallet Extension");
     }
 }
 
-function shortAddress(address, isMobile) {
-    if (isMobile) {
-        return address.slice(0, 4) + "..." + address.slice(-4);
-    } else {
-        return address.slice(0, 6) + "....." + address.slice(-4);
-    }
-
-}
-
-function medAddress(address) {
-    return address.slice(0, 8) + "....." + address.slice(-8);
-}
 async function onWalletConnected(account, index) {
-    console.log(account);
-
-    document.getElementById("walletAddress1").innerText = shortAddress(account[index], isMobile);
-    document.getElementById("walletAddress2").innerText = shortAddress(account[index], isMobile);
+    document.getElementById("walletAddress_d").innerText = shortAddress(account[index], isMobile);
+    document.getElementById("walletAddress_m").innerText = shortAddress(account[index], isMobile);
 
     document.getElementById("tbyt_balance").innerText = tbyt + " TBYT";
     document.getElementById("pol_balance").innerText = pol + " POL";
     document.getElementById("usdt_balance").innerText = usdt + " USDT";
-    if (account.length > 1) {
-        document.getElementById("wallet_place_1").setAttribute("onclick", "showWallets()");
-        document.getElementById("wallet_place_2").setAttribute("onclick", "showWallets()");
-        document.getElementById("wallet_arrow1").style.display = "flex";
-        document.getElementById("wallet_arrow2").style.display = "flex";
-    } else {
-        document.getElementById("wallet_arrow1").style.display = "none";
-    }
+    document.getElementById("wallet_place_d").setAttribute("onclick", "showWallets()");
+    document.getElementById("wallet_place_m").setAttribute("onclick", "showWallets()");
+    document.getElementById("wallet_arrow_d").style.display = "flex";
+    document.getElementById("wallet_arrow_m").style.display = "flex";
 }
 
 function showConnectButton() {
-    document.getElementById("walletAddress1").innerText = "Connect";
-    document.getElementById("walletAddress2").innerText = "Connect Wallet";
+    document.getElementById("walletAddress_d").innerText = "Connect Wallet";
+    document.getElementById("walletAddress_m").innerText = "Connect";
 }
 
 let showWallet = false;
 async function showWallets() {
     if (!showWallet) {
         if (isMobile) {
-            document.getElementById("wallet_overlay_1").style.display = "none";
-            document.getElementById("wallet_overlay_2").style.display = "flex";
+
+            document.getElementById("wallet_overlay_d").style.display = "none";
+            document.getElementById("wallet_overlay_m").style.display = "flex";
         } else {
-            document.getElementById("wallet_overlay_1").style.display = "flex";
-            document.getElementById("wallet_overlay_2").style.display = "none";
+            document.getElementById("disconnect_button_d").style.display = "flex"
+            document.getElementById("wallet_overlay_d").style.display = "flex";
+            document.getElementById("wallet_overlay_m").style.display = "none";
         }
 
-        document.getElementById("wallet_arrow1").style.transform = "rotate(90deg)";
-        document.getElementById("wallet_arrow2").style.transform = "rotate(90deg)";
+        document.getElementById("wallet_arrow_d").style.transform = "rotate(90deg)";
+        document.getElementById("wallet_arrow_m").style.transform = "rotate(90deg)";
 
         showWallet = true;
     } else {
-        document.getElementById("wallet_overlay_1").style.display = "none";
-        document.getElementById("wallet_overlay_2").style.display = "none";
+        document.getElementById("wallet_overlay_d").style.display = "none";
+        document.getElementById("wallet_overlay_m").style.display = "none";
 
-        document.getElementById("wallet_arrow1").style.transform = "rotate(0deg)";
-        document.getElementById("wallet_arrow2").style.transform = "rotate(0deg)";
+        document.getElementById("wallet_arrow_d").style.transform = "rotate(0deg)";
+        document.getElementById("wallet_arrow_m").style.transform = "rotate(0deg)";
 
         showWallet = false;
     }
@@ -298,12 +236,11 @@ function disconnectWallet() {
     usdt = 0.00;
     pol = 0.00;
     tbyt = 0.00;
-    document.getElementById("wallet_overlay_1").style.display = "none";
-    document.getElementById("wallet_overlay_2").style.display = "none";
-    document.getElementById("wallet_arrow1").style.rotate = "calc(90deg)";
-    document.getElementById("wallet_arrow2").style.rotate = "calc(90deg)";
-    document.getElementById("wallet_arrow1").style.display = "none";
-    document.getElementById("wallet_arrow2").style.display = "none";
-    document.getElementById("wallet_place_1").setAttribute("onclick", "connectWallet()");
-    document.getElementById("wallet_place_2").setAttribute("onclick", "connectWallet()");
+    document.getElementById("wallet_overlay_d").style.display = "none";
+    document.getElementById("wallet_overlay_m").style.display = "none";
+    document.getElementById("wallet_arrow_d").style.rotate = "calc(90deg)";
+    document.getElementById("wallet_arrow_m").style.rotate = "calc(90deg)";
+    document.getElementById("wallet_arrow_d").style.display = "none";
+    document.getElementById("wallet_place_d").setAttribute("onclick", "connectWallet()");
+    document.getElementById("wallet_place_m").setAttribute("onclick", "connectWallet()");
 }

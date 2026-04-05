@@ -43,17 +43,17 @@
                     </div>
                 </div>
 
-                <div class="wallet_connect_disconnect" id="wallet_place_1" onclick="connectClicked(true)">
+                <div class="wallet_connect_disconnect" id="wallet_place_m" onclick="connectClicked(true)">
                     <div class="wallet_icon">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                             <path
                                 d="M128 96C92.7 96 64 124.7 64 160L64 448C64 483.3 92.7 512 128 512L512 512C547.3 512 576 483.3 576 448L576 256C576 220.7 547.3 192 512 192L136 192C122.7 192 112 181.3 112 168C112 154.7 122.7 144 136 144L520 144C533.3 144 544 133.3 544 120C544 106.7 533.3 96 520 96L128 96zM480 320C497.7 320 512 334.3 512 352C512 369.7 497.7 384 480 384C462.3 384 448 369.7 448 352C448 334.3 462.3 320 480 320z" />
                         </svg>
                     </div>
-                    <p class="wallet_address" id="walletAddress1">Connect
+                    <p class="wallet_address" id="walletAddress_m">Connect
 
                     </p>
-                    <svg class="wallet_arrow" id="wallet_arrow2" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    <svg class="wallet_arrow" id="wallet_arrow_m" width="20" height="20" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
                     </svg>
@@ -158,30 +158,17 @@
                         </a>
                     </li>
 
-                    <!-- <div class="sidebar_footdiv">
-                        <div class="wallet_connect_disconnect">
-                            <div class="wallet_icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                                    <path
-                                        d="M128 96C92.7 96 64 124.7 64 160L64 448C64 483.3 92.7 512 128 512L512 512C547.3 512 576 483.3 576 448L576 256C576 220.7 547.3 192 512 192L136 192C122.7 192 112 181.3 112 168C112 154.7 122.7 144 136 144L520 144C533.3 144 544 133.3 544 120C544 106.7 533.3 96 520 96L128 96zM480 320C497.7 320 512 334.3 512 352C512 369.7 497.7 384 480 384C462.3 384 448 369.7 448 352C448 334.3 462.3 320 480 320z" />
-                                </svg>
-                            </div>
-                            <p class="wallet_address">0x77aec.....6e8fe8b</p>
-                            <p class="wallet_address">Connect Wallet</p>
-                        </div>
-                    </div> -->
-
                 </ul>
 
-                <div class="wallet_overlay" id="wallet_overlay_2">
+                <div class="wallet_overlay" id="wallet_overlay_m">
                     <div class="heading">
-                        <p id="overlay-title-2">Other Wallets</p>
+                        <p id="overlay-title-m">Other Wallets</p>
                     </div>
                     <div class="hr"></div>
-                    <div class="account_list" id="account_list_2">
+                    <div class="account_list" id="account_list_m">
                     </div>
 
-                    <div class="wallet_list" id="wallet_list">
+                    <div class="wallet_list" id="wallet_list_m">
                         <div class="wallet_div" onclick="connectWallet('trustwallet')">
                             <div class="wallet_pic">
                                 <img src="./src/trustwallet.svg" alt="">
@@ -202,7 +189,7 @@
                             <span>Coinbase Wallet</span>
                         </div>
                     </div>
-                    <div class="disconnect_button" id="disconnect_button_2">
+                    <div class="disconnect_button" id="disconnect_button_m">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_505_75644)">
                                 <path
@@ -218,44 +205,43 @@
 
                         <p onclick="disconnectWallet()">Disconnect</p>
                     </div>
-
                 </div>
-
-
             </div>
             <div class="main_body">
                 <div class="topbar">
                     <p class="topbar_txt">TrustByte Dashboard</p>
                     <div class="topbar_right">
-                        <div class="wallet_connect_disconnect" id="wallet_place_2" onclick='connectWallet("any")'>
+                        <div class="wallet_connect_disconnect" id="wallet_place_d" onclick='connectWallet("any")'>
                             <div class="wallet_icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                                     <path
                                         d="M128 96C92.7 96 64 124.7 64 160L64 448C64 483.3 92.7 512 128 512L512 512C547.3 512 576 483.3 576 448L576 256C576 220.7 547.3 192 512 192L136 192C122.7 192 112 181.3 112 168C112 154.7 122.7 144 136 144L520 144C533.3 144 544 133.3 544 120C544 106.7 533.3 96 520 96L128 96zM480 320C497.7 320 512 334.3 512 352C512 369.7 497.7 384 480 384C462.3 384 448 369.7 448 352C448 334.3 462.3 320 480 320z" />
                                 </svg>
                             </div>
-                            <p class="wallet_address" id="walletAddress2">Connect
+                            <p class="wallet_address" id="walletAddress_d">Connect Wallet
                             </p>
 
-                            <svg class="wallet_arrow" id="wallet_arrow1" width="20" height="20" viewBox="0 0 24 24"
+                            <svg class="wallet_arrow" id="wallet_arrow_d" width="20" height="20" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
                             </svg>
                         </div>
 
                     </div>
-                    <div class="wallet_overlay" id="wallet_overlay_1">
+                    <div class="wallet_overlay" id="wallet_overlay_d">
                         <div class="heading">
-                            <p id="overlay-title-1">Other Wallets</p>
+                            <p id="overlay-title-d">Other Wallets</p>
                         </div>
                         <div class="hr"></div>
-                        <div class="account_list" id="account_list_1">
+                        <div class="account_list" id="account_list_d">
+                        </div>
 
+                        <div class="wallet_list" id="wallet_list_d">
                         </div>
 
 
 
-                        <div class="disconnect_button" id="disconnect_button_1">
+                        <div class="disconnect_button" id="disconnect_button_d">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <g clip-path="url(#clip0_505_75644)">
@@ -293,6 +279,7 @@
             </div>
         </div>
     </div>
+    <script src="src/fun.js"></script>
     <script src="src/app.js"></script>
     <script src="src/jquery.js"></script>
     <script src="src/style.js"></script>

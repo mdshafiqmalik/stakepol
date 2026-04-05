@@ -312,12 +312,11 @@
         padding: 10px 8px;
     }
 
-    #wallet_overlay_2 {
+    #wallet_overlay_m {
         min-width: 180px;
     }
 
-    #wallet_arrow1 {
-        display: none;
+    #wallet_arrow_d {
         rotate: calc(90deg);
         transition: transform .5s ease-in-out;
     }
@@ -630,7 +629,7 @@
 
     }
 
-    #wallet_overlay_2 {
+    #wallet_overlay_m {
         /* min-width: 250px; */
     }
 
@@ -641,7 +640,7 @@
         padding: 10px 8px;
     }
 
-    #wallet_arrow2 {
+    #wallet_arrow_m {
         rotate: calc(90deg);
         transition: transform .5s ease-in-out;
     }
@@ -655,26 +654,23 @@
     .wallet_overlay .account_list {
         display: flex;
         flex-direction: column;
-        padding: 15px 5px 5px 15px;
     }
 
     .wallet_overlay .account_list div {
-        width: 100%;
-        padding: 10px;
-        min-width: 190px;
-        background-color: #67fbef;
-        margin-top: 8px;
+        display: flex;
+        padding: 10px 7px;
+        margin-top: 10px;
+        padding-right: calc(var(--1)* 50);
         border-radius: calc(var(--1) * 8);
+        font-size: calc(var(--1)*12);
+        border: 1px solid white;
+        background: white;
+        align-items: center;
+        cursor: pointer;
+        font-weight: bold;
     }
 
-    .wallet_overlay .account_list div {
-        width: 100%;
-        padding: 7px 10px;
-        min-width: 190px;
-        background-color: #67fbef;
-        margin-top: 3px;
-        border-radius: calc(var(--1) * 8);
-    }
+
 
     .wallet_list {
         padding: calc(var(--1)*2);
@@ -683,7 +679,6 @@
     .wallet_list .wallet_div {
         display: flex;
         padding: 7px;
-        /* background-color: #ccfefa; */
         margin-top: 5px;
         padding-right: calc(var(--1)* 50);
         border-radius: calc(var(--1) * 8);
