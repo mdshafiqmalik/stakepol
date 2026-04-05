@@ -654,20 +654,16 @@
     .wallet_overlay .account_list {
         display: flex;
         flex-direction: column;
+        padding: 15px 5px 5px 15px;
     }
 
     .wallet_overlay .account_list div {
-        display: flex;
-        padding: 10px 7px;
-        margin-top: 10px;
-        padding-right: calc(var(--1)* 50);
+        width: 100%;
+        padding: 10px;
+        min-width: 190px;
+        background-color: #67fbef;
+        margin-top: 8px;
         border-radius: calc(var(--1) * 8);
-        font-size: calc(var(--1)*12);
-        border: 1px solid white;
-        background: white;
-        align-items: center;
-        cursor: pointer;
-        font-weight: bold;
     }
 
 

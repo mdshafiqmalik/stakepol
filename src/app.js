@@ -233,14 +233,18 @@ function disconnectWallet() {
     walletConnection = false;
     localStorage.removeItem("walletConnected");
     showConnectButton()
-    usdt = 0.00;
-    pol = 0.00;
-    tbyt = 0.00;
+    document.getElementById("tbyt_balance").innerText = "0.00 TBYT";
+    document.getElementById("pol_balance").innerText = "0.00 POL";
+    document.getElementById("usdt_balance").innerText = "0.00 USDT";
     document.getElementById("wallet_overlay_d").style.display = "none";
     document.getElementById("wallet_overlay_m").style.display = "none";
+    document.getElementById("wallet_list_m").style.display = "flex"
+    document.getElementById("account_list_m").style.display = "none"
+    document.getElementById("account_list_d").style.display = "none"
+    document.getElementById("wallet_list_m").style.flexDirection = "column"
     document.getElementById("wallet_arrow_d").style.rotate = "calc(90deg)";
-    document.getElementById("wallet_arrow_m").style.rotate = "calc(90deg)";
     document.getElementById("wallet_arrow_d").style.display = "none";
-    document.getElementById("wallet_place_d").setAttribute("onclick", "connectWallet()");
-    document.getElementById("wallet_place_m").setAttribute("onclick", "connectWallet()");
+    document.getElementById("wallet_arrow_m").style.rotate = "calc(90deg)";
+    document.getElementById("wallet_place_d").setAttribute("onclick", "connectWallet(true)");
+    document.getElementById("wallet_place_m").setAttribute("onclick", "connectClicked(true)");
 }
